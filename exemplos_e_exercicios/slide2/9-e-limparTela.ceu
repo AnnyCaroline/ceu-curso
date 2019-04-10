@@ -1,0 +1,17 @@
+par/or do
+    var int i;
+    loop i in [-25 -> 25] do
+        emit GRAPHICS_DRAW_PIXEL(i,i);
+        await 150ms;
+    end
+with
+    var int i;
+    loop i in [-25 -> 25] do
+        emit GRAPHICS_DRAW_PIXEL(-i,i);
+        await 100ms;
+    end
+with
+	await MOUSE_CLICK;
+end
+
+emit WINDOW_CLEAR;
