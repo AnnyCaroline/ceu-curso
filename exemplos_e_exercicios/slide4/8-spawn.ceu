@@ -1,3 +1,5 @@
+// teste sem o await FOREVER;
+
 #include "random.ceu"
 
 code/await Pixel (none) -> NEVER do
@@ -13,14 +15,10 @@ code/await Pixel (none) -> NEVER do
     end
 end
 
-par do
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();    
-end
+spawn Pixel();
+spawn Pixel();
+spawn Pixel();
+spawn Pixel();
+spawn Pixel();
+
+await FOREVER;

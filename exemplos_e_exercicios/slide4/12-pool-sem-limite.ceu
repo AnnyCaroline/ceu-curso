@@ -13,14 +13,8 @@ code/await Pixel (none) -> NEVER do
     end
 end
 
-par do
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();    
+pool[] Pixel pixels;
+
+every 1s do
+   spawn Pixel() in pixels;
 end

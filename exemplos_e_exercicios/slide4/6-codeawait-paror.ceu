@@ -10,13 +10,16 @@ code/await Pixel (var Point pt) -> NEVER do
    end
 end
 
-
-par do
-   await Pixel();
+par/or do
+    var Point pt = val Point(0,0);
+    await Pixel(pt);
 with
-   await Pixel();
+    var Point pt = val Point(5,5);
+    await Pixel(pt);
 with
-   await Pixel();
+    var Point pt = val Point(10,10);
+    await Pixel(pt);
 with
-   await Pixel();
+    var Point pt = val Point(15,15);
+    await Pixel(pt);
 end

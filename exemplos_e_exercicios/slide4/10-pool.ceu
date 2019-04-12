@@ -13,14 +13,10 @@ code/await Pixel (none) -> NEVER do
     end
 end
 
-par do
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();
-with
-    await Pixel();    
+pool[5] Pixel pixels;
+var int i;
+loop i in [1->5] do
+   spawn Pixel() in pixels;
 end
+
+await FOREVER;
