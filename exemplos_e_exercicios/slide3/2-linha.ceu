@@ -1,0 +1,13 @@
+code/await Line(var int interval) -> none do
+   var int i;
+
+   loop i in [-25 -> 25] do
+       emit GRAPHICS_DRAW_PIXEL(i, i);
+       await (interval)ms;
+   end
+end
+
+await Line(100);
+
+emit GRAPHICS_SET_COLOR_NAME(COLOR_RED);
+emit GRAPHICS_DRAW_PIXEL(0,0);
