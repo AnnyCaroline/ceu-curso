@@ -1,0 +1,13 @@
+code/await Pixel (var int x, var int y) -> NEVER do
+   loop do
+       emit GRAPHICS_SET_COLOR_NAME(COLOR_RED);
+       emit GRAPHICS_DRAW_PIXEL(x, y);
+       await 300ms;
+
+       emit GRAPHICS_SET_COLOR_NAME(COLOR_YELLOW);
+       emit GRAPHICS_DRAW_PIXEL(x, y);
+       await 300ms;
+   end
+end
+
+await Pixel(0,0);
