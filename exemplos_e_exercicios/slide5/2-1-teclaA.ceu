@@ -1,0 +1,9 @@
+code/await Player(none) -> none do
+    var int key = await KEY_PRESS;
+    if (key==KEY_a) then
+        emit GRAPHICS_DRAW_PIXEL(0,0);
+    end
+end
+
+spawn Player();
+await FOREVER;

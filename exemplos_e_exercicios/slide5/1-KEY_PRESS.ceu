@@ -1,0 +1,7 @@
+code/await Player(none) -> none do
+   await KEY_PRESS;
+   emit  GRAPHICS_DRAW_PIXEL(0,0);
+end
+
+spawn Player();
+await FOREVER;

@@ -1,0 +1,11 @@
+code/await Player(none) -> NEVER do
+   var int i=0;
+   var int key;
+   every key in KEY_PRESS do
+       emit GRAPHICS_DRAW_PIXEL(i,i);
+       i = i+1;
+   end
+end
+
+spawn Player();
+await FOREVER;
