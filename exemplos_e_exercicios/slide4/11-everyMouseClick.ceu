@@ -15,6 +15,11 @@ end
 
 pool[5] Pixel pixels;
 
-every 1s do
+// loop do
+//     spawn Pixel() in pixels;
+//     await MOUSE_CLICK;
+// end
+
+every MOUSE_CLICK do
    spawn Pixel() in pixels;
 end

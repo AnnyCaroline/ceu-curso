@@ -1,22 +1,30 @@
-code/await Line(var int interval, var int mult_x, var int mult_y) -> none do
-   var int i;
-   loop i in [-25 -> 25] do
-       emit GRAPHICS_DRAW_PIXEL(mult_x*i, mult_y*i);
-       await (interval)ms;
+#include "random.ceu"
+
+emit FRAMES_SET(yes);
+
+code/await Pixel (none) -> none do
+   var Point pt = call Random_Point();
+  
+   do finalize with
+       emit GRAPHICS_SET_COLOR_NAME(COLOR_BLACK);
+       emit GRAPHICS_DRAW_PIXEL(pt.x,pt.y);
+   end
+
+   par/or do
+       every FRAMES_REDRAW do
+           emit GRAPHICS_SET_COLOR_NAME(COLOR_RED);
+           emit GRAPHICS_DRAW_PIXEL(pt.x, pt.y);
+           await 300ms;
+
+           emit GRAPHICS_SET_COLOR_NAME(COLOR_YELLOW);
+           emit GRAPHICS_DRAW_PIXEL(pt.x, pt.y);
+           await 300ms;
+       end
+   with
+       await MOUSE_CLICK;
    end
 end
 
+spawn Pixel();
 
-par/and do
-   await Line(100,1,1);
-with
-   await Line(100,-1,1);
-with
-   await Line(100,1,0);
-with
-   await Line(100,0,1);       
-end
-
-
-emit GRAPHICS_SET_COLOR_NAME(COLOR_RED);
-emit GRAPHICS_DRAW_PIXEL(0,0);
+await FOREVER;
