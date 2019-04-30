@@ -1,0 +1,55 @@
+emit FRAMES_SET(yes);
+
+code/await Player(var int up, var int right, var int down, var int left, var Color color) -> NEVER do
+    var Point pt = val Point(0,0);
+    
+    /*
+        x_axis = 0
+            Não está se movendo horizontalmente
+
+        x_axis = -1
+            Está se movendo para esquerda
+
+        x_axis = 1
+            Está se movendo para direita
+    */
+    var int x_axis = 0;
+    
+    /*
+        y_axis = 0
+            Não está se movendo verticalmente
+
+        y_axis = -1
+            Está se movendo para baixo
+
+        y_axis = 1
+            Está se movendo para cima
+    */
+    var int y_axis = 0;
+
+    par do
+        var int key;
+        every key in KEY_PRESS do
+            //atualiza x_axis e y_axis com 1 ou -1
+        end
+    with
+        var int key;
+        every key in KEY_UNPRESS do
+            //atualiza x_axis e y_axis com 0
+        end        
+    with
+        every FRAMES_UPDATE do
+            //atualiza pt com base em x_axis e y_axis
+        end
+    with
+        every FRAMES_REDRAW do
+            //desenha pixel
+            emit GRAPHICS_SET_COLOR_NAME(color);
+            emit GRAPHICS_DRAW_PIXEL(pt.x, pt.y);
+        end
+    end
+end
+
+spawn Player(KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT, COLOR_BLUE);
+spawn Player(KEY_w , KEY_d    , KEY_s   , KEY_a   , COLOR_RED);
+await FOREVER;
