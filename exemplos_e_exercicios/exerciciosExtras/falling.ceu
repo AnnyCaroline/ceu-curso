@@ -1,0 +1,22 @@
+#include "random.ceu"
+
+emit FRAMES_SET(yes);
+
+code/await Falling(none) -> NEVER do
+    var int x = 0;
+    var int y = 25;
+
+    par do
+        every FRAMES_REDRAW do
+            emit GRAPHICS_DRAW_PIXEL(x,y);
+        end
+    with
+        every 50ms do
+            y=y-1;
+        end
+    end
+end
+
+spawn Falling();
+
+await FOREVER;

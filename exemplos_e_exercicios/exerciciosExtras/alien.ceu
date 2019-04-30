@@ -1,0 +1,24 @@
+code/await Alien(none) -> none do
+    emit GRAPHICS_DRAW_PIXEL(-2,3);//antenas
+    emit GRAPHICS_DRAW_PIXEL(-3,4);
+    emit GRAPHICS_DRAW_PIXEL(2,3);
+    emit GRAPHICS_DRAW_PIXEL(3,4);
+
+    emit GRAPHICS_DRAW_RECT(0,2,7,1);
+    emit GRAPHICS_DRAW_RECT(0,1,9,1);//linha dos olhos
+    emit GRAPHICS_DRAW_RECT(0,-1,11,3);//linhas do braço
+    emit GRAPHICS_DRAW_RECT(0,-3,5,1);//última linha
+
+
+    emit GRAPHICS_SET_COLOR_NAME(COLOR_BLACK);
+    emit GRAPHICS_DRAW_PIXEL(-2,1);//olhos
+    emit GRAPHICS_DRAW_PIXEL(2,1);
+    emit GRAPHICS_DRAW_PIXEL(-4,-1);//braços
+    emit GRAPHICS_DRAW_PIXEL(-4,-2);
+    emit GRAPHICS_DRAW_PIXEL(4,-1);
+    emit GRAPHICS_DRAW_PIXEL(4,-2);
+    emit GRAPHICS_DRAW_RECT(0,-2,5,1);//"boca"
+    emit GRAPHICS_DRAW_PIXEL(0,-3);
+end
+
+await Alien();
