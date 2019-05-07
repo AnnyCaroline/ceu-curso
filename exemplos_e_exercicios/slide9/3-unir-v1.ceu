@@ -86,5 +86,3 @@ pool[] Pixel pixels;
 every 1s do
    spawn Pixel() in pixels;
 end
-
-await FOREVER;

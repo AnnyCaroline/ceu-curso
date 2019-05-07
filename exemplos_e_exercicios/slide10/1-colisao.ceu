@@ -2,8 +2,8 @@
 
 emit FRAMES_SET(yes);
 
-code/await Player(var int up, var int right, var int down, var int left, var Color color) -> NEVER do
-    var Point pt = val Point(0,0);
+code/await Player(var int up, var int right, var int down, var int left, var Color color) -> (var Point pt) -> NEVER do
+    pt = val Point(0,0);
     var int x_axis = 0;
     var int y_axis = 0;
 
@@ -55,9 +55,9 @@ code/await Player(var int up, var int right, var int down, var int left, var Col
     end
 end
 
-code/await Pixel (none) -> none do
-    var Point pt = call Random_Point();
-    
+code/await Pixel (none) -> (var Point pt) -> none do
+    pt = call Random_Point();
+
     var Color color = COLOR_RED;
     par/or do
         loop do
@@ -77,11 +77,26 @@ code/await Pixel (none) -> none do
     end
 end
 
-spawn Player(KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT, COLOR_BLUE);
-spawn Player(KEY_w , KEY_d    , KEY_s   , KEY_a   , COLOR_RED);
+pool[5] Pixel pixels;
+pool[2] Player players;
+spawn Player(KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT, COLOR_BLUE) in players;
+spawn Player(KEY_w , KEY_d    , KEY_s   , KEY_a   , COLOR_RED) in players;
 
-pool[] Pixel pixels;
-
-every 1s do
-   spawn Pixel() in pixels;
+par do
+    every 1s do
+        spawn Pixel() in pixels;
+    end
+with
+    // Aqui vamos tratar a colisão
+    every FRAMES_UPDATE do
+        var& Player player;
+        loop player in players do
+            var&? Pixel pixel;
+            loop pixel in pixels do
+                // verifico a colisão e tomo uma ação
+                // player.pt.x
+                // pixel!.pt.x
+            end
+        end
+    end
 end

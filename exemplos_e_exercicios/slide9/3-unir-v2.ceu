@@ -58,11 +58,6 @@ end
 code/await Pixel (none) -> none do
     var Point pt = call Random_Point();
 
-    do finalize with
-        emit GRAPHICS_SET_COLOR_NAME(COLOR_BLACK);
-        emit GRAPHICS_DRAW_PIXEL(pt.x,pt.y);
-    end
-
     par/or do
         every FRAMES_REDRAW do
             emit GRAPHICS_SET_COLOR_NAME(COLOR_RED);
@@ -88,5 +83,3 @@ pool[] Pixel pixels;
 every 1s do
    spawn Pixel() in pixels;
 end
-
-await FOREVER;
