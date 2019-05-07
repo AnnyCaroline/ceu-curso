@@ -1,9 +1,0 @@
-event none draw;
-
-par do
-    await draw;
-    emit GRAPHICS_DRAW_PIXEL(0,0);
-with
-    await MOUSE_CLICK;
-    emit draw;
-end
