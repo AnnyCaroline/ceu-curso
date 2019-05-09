@@ -1,0 +1,4 @@
+emit WINDOW_SET_CLEAR_COLOR_NAME(COLOR_WHITE);
+emit WINDOW_CLEAR;
+
+emit GRAPHICS_DRAW_BMP(0,0, "res/star.bmp");
