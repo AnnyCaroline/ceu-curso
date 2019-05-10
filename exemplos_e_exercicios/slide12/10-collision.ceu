@@ -13,7 +13,7 @@ code/call Intersects (var& Rect rect1, var& Rect rect2) -> yes/no do
 end
 
 code/await Player(var int id, var int up, var int right, var int down, var int left, var Color color) -> (var Rect rect) -> none do
-    rect = val Rect(0,0,4,5); //x,y,h,w
+    rect = val Rect(0,0,4,5); //x,y,w,h
     var int playerFrame = 0;
     var int score = 0;
     var int x_axis = 0;
