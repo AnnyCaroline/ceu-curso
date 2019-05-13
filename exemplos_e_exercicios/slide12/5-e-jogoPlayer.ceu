@@ -81,7 +81,7 @@ code/await Player(var int id, var int up, var int right, var int down, var int l
     end
 end
 
-code/await Pixel (none) -> (var Point pt) -> none do
+code/await Pixel (none) -> (var Point pt, event none collision) -> none do
     pt = call Random_Point_In_Square(-25,-25,25,17);
 
     var Color color = COLOR_RED;
@@ -100,6 +100,8 @@ code/await Pixel (none) -> (var Point pt) -> none do
         end
     with
         await MOUSE_CLICK;
+    with
+        await collision;
     with
         await outer.game_over;
     end
@@ -125,7 +127,7 @@ with
             loop pixel in pixels do
                 // verifico a colisão e tomo uma ação
                 if (player!.pt.x == pixel!.pt.x) and (player!.pt.y == pixel!.pt.y) then
-                    kill pixel;
+                    emit pixel!.collision();
                     emit collision(player!.id);
                 end
             end

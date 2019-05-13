@@ -90,7 +90,7 @@ code/await Player(var int id, var int up, var int right, var int down, var int l
     end
 end
 
-code/await Coin (none) -> (var Point pt) -> none do
+code/await Coin (none) -> (var Point pt, event none collision) -> none do
     pt = call Random_Point_In_Square(-25,-25,25,17);
 
     var int coinFrame = 0;
@@ -112,6 +112,8 @@ code/await Coin (none) -> (var Point pt) -> none do
         end
     with
         await MOUSE_CLICK;
+    with
+        await collision;
     with
         await outer.game_over;
     end
@@ -137,7 +139,7 @@ with
             loop coin in coins do
                 // verifico a colisão e tomo uma ação
                 if (player!.pt.x == coin!.pt.x) and (player!.pt.y == coin!.pt.y) then
-                    kill coin;
+                    emit coin!.collision();
                     emit collision(player!.id);
                 end
             end

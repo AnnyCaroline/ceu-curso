@@ -103,7 +103,7 @@ code/await Player(var int id, var int up, var int right, var int down, var int l
     end
 end
 
-code/await Coin (none) -> (var Rect rect) -> none do
+code/await Coin (none) -> (var Rect rect, event none collision) -> none do
     var Point pt = call Random_Point_In_Square(-25,-25,25,17);
     rect = val Rect(pt.x, pt.y, 2, 2); //...
 
@@ -129,6 +129,8 @@ code/await Coin (none) -> (var Rect rect) -> none do
     with
         await MOUSE_CLICK;
     with
+        await collision;
+    with
         await outer.game_over;
     end
 end
@@ -153,7 +155,7 @@ every FRAMES_UPDATE do
         loop coin in coins do
             // verifico a colisão e tomo uma ação
             if (call Intersects(&player!.rect,&coin!.rect)) then
-                kill coin;
+                emit coin!.collision();
                 emit collision(player!.id);
             end
         end

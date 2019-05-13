@@ -52,19 +52,10 @@ code/await Player(var int id, var int up, var int right, var int down, var int l
         end
     with
         every FRAMES_REDRAW do
-            //desenha bmp
-            emit GRAPHICS_SET_BMP_FRAME(0, 4);
-            emit GRAPHICS_SET_SCALE(0.3, 0.3);
-            if (id == 1) then
-                emit GRAPHICS_DRAW_BMP(pt.x, pt.y, "res/player1.bmp");            
-            else
-                emit GRAPHICS_DRAW_BMP(pt.x, pt.y, "res/player1.bmp");    
-            end
             //desenha pixel
             emit GRAPHICS_SET_COLOR_NAME(color);
             emit GRAPHICS_DRAW_PIXEL(pt.x, pt.y);
             //desenha score
-            emit GRAPHICS_SET_SCALE(1.0,1.0);
             if (id == 1) then
                 emit GRAPHICS_DRAW_INT(-21,21,score);
             else
@@ -80,12 +71,10 @@ code/await Player(var int id, var int up, var int right, var int down, var int l
                 emit outer.game_over(id);
             end
         end
-    with
-        await outer.game_over;
     end
 end
 
-code/await Pixel (none) -> (var Point pt, event none collision) -> none do
+code/await Pixel (none) -> (var Point pt) -> none do
     pt = call Random_Point_In_Square(-25,-25,25,17);
 
     var Color color = COLOR_RED;
@@ -104,41 +93,39 @@ code/await Pixel (none) -> (var Point pt, event none collision) -> none do
         end
     with
         await MOUSE_CLICK;
-    with
-        await collision;
-    with
-        await outer.game_over;
     end
 end
 
-pool[5] Pixel pixels;
-pool[2] Player players;
-spawn Player(1, KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT, COLOR_BLUE) in players;
-spawn Player(2, KEY_w , KEY_d    , KEY_s   , KEY_a   , COLOR_RED) in players;
-
 var int winner;
 
-par/or do
-    every 1s do
-        spawn Pixel() in pixels;
-    end
-with
-    // Aqui vamos tratar a colisão
-    every FRAMES_UPDATE do
-        var&? Player player;
-        loop player in players do
-            var&? Pixel pixel;
-            loop pixel in pixels do
-                // verifico a colisão e tomo uma ação
-                if (player!.pt.x == pixel!.pt.x) and (player!.pt.y == pixel!.pt.y) then
-                    emit pixel!.collision();
-                    emit collision(player!.id);
+do
+    pool[5] Pixel pixels;
+    pool[2] Player players;
+    spawn Player(1, KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT, COLOR_BLUE) in players;
+    spawn Player(2, KEY_w , KEY_d    , KEY_s   , KEY_a   , COLOR_RED) in players;
+
+    par/or do
+        every 1s do
+            spawn Pixel() in pixels;
+        end
+    with
+        // Aqui vamos tratar a colisão
+        every FRAMES_UPDATE do
+            var&? Player player;
+            loop player in players do
+                var&? Pixel pixel;
+                loop pixel in pixels do
+                    // verifico a colisão e tomo uma ação
+                    if (player!.pt.x == pixel!.pt.x) and (player!.pt.y == pixel!.pt.y) then
+                        kill pixel;
+                        emit collision(player!.id);
+                    end
                 end
             end
         end
+    with
+        winner = await game_over;
     end
-with
-    winner = await game_over;
 end
 
 emit GRAPHICS_SET_COLOR_NAME(COLOR_WHITE);
